@@ -57,8 +57,8 @@ if [ "$ACTION" = "update" ] && [ -f "/etc/hysteria/config.yaml" ]; then
     HY_PASSWORD=$(grep 'password:' /etc/hysteria/config.yaml | awk '{print $2}')
 else
     echo -e "${RED}正在执行覆盖安装/初始化...${NC}"
-    # 生成新证书 (已通过 2>/dev/null 隐藏进度条)
-    openssl req -x509 -nodes -newkey rsa:2048 -keyout /etc/hysteria/server.key -out /etc/hysteria/server.crt -subj "/CN=www.bing.com" -days 3650 2>/dev/null
+    # 生成新证书
+    openssl req -x509 -nodes -newkey rsa:2048 -keyout /etc/hysteria/server.key -out /etc/hysteria/server.crt -subj "/CN=speed.cloudflare.com" -days 3650 2>/dev/null
     
     # 生成新密码
     HY_PASSWORD=$(tr -dc 'A-Za-z0-9' < /dev/urandom | head -c 25)
@@ -75,9 +75,15 @@ auth:
 masquerade:
   type: proxy
   proxy:
-    url: https://bing.com/
+    url: https://speed.cloudflare.com/
     rewriteHost: true
 EOC
+fi
+
+# --- 新增：获取证书 SHA256 指纹 ---
+if [ -f "/etc/hysteria/server.crt" ]; then
+    # 提取指纹并去掉 "SHA256 Fingerprint=" 前缀，保留十六进制部分
+    CERT_FP=$(openssl x509 -noout -fingerprint -sha256 -in /etc/hysteria/server.crt | cut -d'=' -f2)
 fi
 
 # 5. 服务与启动
@@ -101,14 +107,18 @@ SERVER_IP=$(curl -s https://api.ipify.org || echo "YOUR_SERVER_IP")
 echo "------------------------------------------------"
 echo -e "${GREEN}Hysteria2 操作成功！${NC}"
 echo "------------------------------------------------"
-echo "==== 1. 通用分享链接 (v2rayN/Nekobox) ===="
-echo "hysteria2://$HY_PASSWORD@$SERVER_IP:443/?insecure=1&sni=www.bing.com#Alpine_Hy2"
+echo "证书指纹 (SHA256):"
+echo -e "${GREEN}$CERT_FP${NC}"
+echo "------------------------------------------------"
+echo "==== 1. 通用分享链接 (推荐：指纹验证模式) ===="
+# 这种格式在支持 pin-sha256 的客户端中更安全
+echo "hysteria2://$HY_PASSWORD@$SERVER_IP:443/?sni=speed.cloudflare.com&pin-sha256=$CERT_FP#Alpine_Hy2"
 echo ""
-echo "==== 2. Clash Meta (Mihomo) 单行格式 ===="
-echo "{ name: Alpine_Hy2, type: hysteria2, server: $SERVER_IP, port: 443, password: $HY_PASSWORD, sni: www.bing.com, skip-cert-verify: true }"
+echo "==== 2. Clash Meta (Mihomo) 配置 ===="
+echo "{ name: Alpine_Hy2, type: hysteria2, server: $SERVER_IP, port: 443, password: $HY_PASSWORD, sni: speed.cloudflare.com, skip-cert-verify: true }"
 echo ""
 echo "==== 3. Surge 5 节点格式 ===="
-echo "Alpine_Hy2 = hysteria2, $SERVER_IP, 443, password=$HY_PASSWORD, sni=www.bing.com, skip-cert-verify=true"
+echo "Alpine_Hy2 = hysteria2, $SERVER_IP, 443, password=$HY_PASSWORD, sni=speed.cloudflare.com, skip-cert-verify=true"
 echo "------------------------------------------------"
 echo "管理命令:"
 echo "  覆盖安装: sh install_hy2.sh"
