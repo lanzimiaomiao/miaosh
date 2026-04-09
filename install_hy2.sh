@@ -111,8 +111,8 @@ echo "证书指纹 (SHA256):"
 echo -e "${GREEN}$CERT_FP${NC}"
 echo "------------------------------------------------"
 echo "==== 1. 通用分享链接 (推荐：指纹验证模式) ===="
-# 这种格式在支持 pin-sha256 的客户端中更安全
-echo "hysteria2://$HY_PASSWORD@$SERVER_IP:443/?sni=speed.cloudflare.com&pin-sha256=$CERT_FP#Alpine_Hy2"
+# 修正了 SNI，并将指纹参数改为 v2rayN 识别的 pinSHA256，同时明确关闭允许不安全证书
+echo "hysteria2://$HY_PASSWORD@$SERVER_IP:443/?sni=speed.cloudflare.com&insecure=0&allowInsecure=0&pinSHA256=$CERT_FP#Alpine_Hy2"
 echo ""
 echo "==== 2. Clash Meta (Mihomo) 配置 ===="
 echo "{ name: Alpine_Hy2, type: hysteria2, server: $SERVER_IP, port: 443, password: $HY_PASSWORD, sni: speed.cloudflare.com, skip-cert-verify: true }"
