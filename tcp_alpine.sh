@@ -35,6 +35,14 @@ net.ipv4.tcp_wmem = 4096 131072 $MAX_WMEM
 net.ipv4.tcp_slow_start_after_idle=0
 net.ipv4.tcp_notsent_lowat=131072
 net.ipv4.tcp_fastopen=0
+net.ipv4.tcp_keepalive_time = 600
+net.ipv4.tcp_keepalive_intvl = 30
+net.ipv4.tcp_keepalive_probes = 3
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_max_tw_buckets = 20000
+net.ipv4.tcp_fin_timeout = 15
+net.ipv4.tcp_retries2 = 5
+net.ipv4.tcp_orphan_retries = 1
 EOF
 
 # 5. 生效并显示结果
