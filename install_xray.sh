@@ -64,20 +64,25 @@ if [ "$1" = "update" ]; then do_update; fi
 do_cleanup
 download_xray
 
-# 4. 密钥生成 (适配 PrivateKey 和 Password 格式)
+# 4. 密钥生成 (完美适配最新版 PrivateKey/PublicKey 格式)
 echo -e "${BLUE}生成 Reality 密钥对...${NC}"
 X_KEYS_ALL=$(${XRAY_BIN} x25519 2>/dev/null)
 UUID=$(${XRAY_BIN} uuid 2>/dev/null)
 
-PRIVATE_KEY=$(echo "${X_KEYS_ALL}" | grep "PrivateKey" | awk '{print $NF}')
-PUBLIC_KEY=$(echo "${X_KEYS_ALL}" | grep "Password" | awk '{print $NF}')
-[ -z "$PUBLIC_KEY" ] && PUBLIC_KEY=$(echo "${X_KEYS_ALL}" | grep "Public" | awk '{print $NF}')
+# 使用 grep -E 忽略大小写和空格，精准匹配 Key 后的内容
+PRIVATE_KEY=$(echo "${X_KEYS_ALL}" | grep -i "PrivateKey" | awk -F': ' '{print $2}' | tr -d ' ')
+PUBLIC_KEY=$(echo "${X_KEYS_ALL}" | grep -i "PublicKey" | awk -F': ' '{print $2}' | tr -d ' ')
+
+# 兜底方案：如果最新版没有冒号，则取最后一列
+[ -z "$PRIVATE_KEY" ] && PRIVATE_KEY=$(echo "${X_KEYS_ALL}" | grep -i "PrivateKey" | awk '{print $NF}')
+[ -z "$PUBLIC_KEY" ] && PUBLIC_KEY=$(echo "${X_KEYS_ALL}" | grep -i "PublicKey" | awk '{print $NF}')
 
 SHORT_ID=$(openssl rand -hex 4)
 DEST_DOMAIN="speed.cloudflare.com"
 
 if [ -z "$PRIVATE_KEY" ] || [ -z "$PUBLIC_KEY" ]; then
-    echo -e "${RED}密钥提取失败，请检查 Xray 输出环境${NC}"
+    echo -e "${RED}密钥提取失败！Xray 输出内容如下：${NC}"
+    echo "${X_KEYS_ALL}"
     exit 1
 fi
 
