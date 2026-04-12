@@ -1,9 +1,6 @@
-这是一个alpine一键脚本库
+这是一个alpine 安装reality+hy2一键脚本
 该脚本是找gemini ai搓的
 安装的文件都是从官方仓库获取
-
-确保你安装了curl
-
 ```
 apk  update
 apk add curl bash
