@@ -8,15 +8,12 @@
 apk  update
 apk add curl bash
 ```
-**reality**
 
 ```
-bash <(curl -L -s https://github.com/lanzimiaomiao-prog/miaosh/raw/main/install_xray.sh) 
+wget https://github.com/lanzimiaomiao-prog/miaosh/raw/main/xray.sh
+bash xray.sh
 ```
-**hysteria2**
-```
-bash <(curl -L -s https://github.com/lanzimiaomiao-prog/miaosh/raw/main/install_hy2.sh)
-```
+
 
 
 **调整tcp窗口大小**
