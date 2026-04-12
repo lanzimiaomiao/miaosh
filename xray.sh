@@ -95,7 +95,7 @@ DEST_DOMAIN="speed.cloudflare.com"
 openssl req -x509 -nodes -newkey rsa:2048 -keyout ${KEY_FILE} -out ${CERT_FILE} -days 3650 -subj "/CN=${DEST_DOMAIN}" > /dev/null 2>&1
 
 # 使用指定方式提取 SHA256 Fingerprint 并进行 URL 编码替换 (冒号转 %3A)
-CERT_PIN=$(openssl x509 -noout -fingerprint -sha256 -in ${CERT_FILE} | cut -d'=' -f2 | sed 's/:/%3A/g')
+CERT_PIN=$(openssl x509 -noout -fingerprint -sha256 -in ${CERT_FILE} | cut -d'=' -f2)
 
 if [ -z "$PRIVATE_KEY" ] || [ -z "$PUBLIC_KEY" ]; then
     echo -e "${RED}密钥提取失败！Xray 输出内容如下：${NC}"
