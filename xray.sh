@@ -210,7 +210,7 @@ echo "------------------------------------------------"
 # IPv4 节点
 if [ -n "$IP4" ]; then
     echo -e "${BLUE}[IPv4 reality节点信息]${NC}"
-    echo -e "v2RayN: vless://${UUID}@${IP4}:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=${DEST_DOMAIN}&fp=random&pbk=${PUBLIC_KEY}&sid=${SHORT_ID}&type=tcp&headerType=none#Reality_V4
+    echo -e "v2RayN: vless://${UUID}@${IP4}:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=${DEST_DOMAIN}&fp=random&pbk=${PUBLIC_KEY}&sid=${SHORT_ID}&type=tcp&headerType=none#Reality_V4"
     echo -e "Clash: - {name: Reality_V4, type: vless, server: '${IP4}', port: 443, uuid: ${UUID}, udp: true, tls: true, flow: xtls-rprx-vision, servername: ${DEST_DOMAIN}, network: tcp, reality-opts: {public-key: ${PUBLIC_KEY}, short-id: ${SHORT_ID}}, client-fingerprint: random}"
     echo ""
     echo -e "${BLUE}[IPv4 Hysteria2节点信息]${NC}"
