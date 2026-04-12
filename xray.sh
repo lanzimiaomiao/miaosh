@@ -210,10 +210,11 @@ echo "------------------------------------------------"
 # IPv4 节点
 if [ -n "$IP4" ]; then
     echo -e "${BLUE}[IPv4 reality节点信息]${NC}"
-    echo -e "v2RayN: vless://${UUID}@${IP4}:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=${DEST_DOMAIN}&fp=random&pbk=${PUBLIC_KEY}&sid=${SHORT_ID}&type=tcp&headerType=none#reality_V4"
-    echo -e "Clash: - {name: reality_V4, type: vless, server: ${IP4}, port: 443, uuid: ${UUID}, udp: true, tls: true, flow: xtls-rprx-vision, servername: ${DEST_DOMAIN}, network: tcp, reality-opts: {public-key: ${PUBLIC_KEY}, short-id: ${SHORT_ID}}, client-fingerprint: random}"
+    echo -e "v2RayN: vless://${UUID}@${IP4}:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=${DEST_DOMAIN}&fp=random&pbk=${PUBLIC_KEY}&sid=${SHORT_ID}&type=tcp&headerType=none#Reality_V4"ame: Reality_V4, type: vless, server: ${IP4}, port: 443, uuid: ${UUID}, udp: true, tls: true, flow: xtls-rprx-vision, servername: ${DEST_DOMAIN}, network: tcp, reality-opts: {public-key: ${PUBLIC_KEY}, short-id: ${SHORT_ID}}, client-fingerprint: random}"
+    echo -e "Clash: - {name: Reality_V4, type: vless, server: '${IP4}', port: 443, uuid: ${UUID}, udp: true, tls: true, flow: xtls-rprx-vision, servername: ${DEST_DOMAIN}, network: tcp, reality-opts: {public-key: ${PUBLIC_KEY}, short-id: ${SHORT_ID}}, client-fingerprint: random}"
+    echo ""
     echo -e "${BLUE}[IPv4 Hysteria2节点信息]${NC}"
-    echo "hysteria2://${UUID}@${IP4}:443?sni=${DEST_DOMAIN}&insecure=0&allowInsecure=0&pinSHA256=${CERT_PIN}#Alpine_V4_Hy2"
+    echo "hysteria2://${UUID}@${IP4}:443?sni=${DEST_DOMAIN}&insecure=0&allowInsecure=0&pinSHA256=${CERT_PIN}#Hysteria_V4"
     echo -e "Clash: - {name: "Hysteria_V4", type: hysteria2, server: ${IP4}, port: 443, password: ${UUID}, up: "100 Mbps", down: "200 Mbps", sni: ${DEST_DOMAIN}, skip-cert-verify: false, fingerprint: "${CERT_PIN}", alpn: [h3]}"
     echo ""
 fi
@@ -221,13 +222,12 @@ fi
 # IPv6 节点
 if [ -n "$IP6" ]; then
     echo -e "${BLUE}[IPv6 reality节点信息]${NC}"
-    echo -e "v2RayN: vless://${UUID}@[${IP6}]:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=${DEST_DOMAIN}&fp=random&pbk=${PUBLIC_KEY}&sid=${SHORT_ID}&type=tcp&headerType=none#reality_V6"
+    echo -e "v2RayN: vless://${UUID}@[${IP6}]:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=${DEST_DOMAIN}&fp=random&pbk=${PUBLIC_KEY}&sid=${SHORT_ID}&type=tcp&headerType=none#Reality_V6"
+    echo -e "Clash: - {name: Reality_V6, type: vless, server: '${IP6}', port: 443, uuid: ${UUID}, udp: true, tls: true, flow: xtls-rprx-vision, servername: ${DEST_DOMAIN}, network: tcp, reality-opts: {public-key: ${PUBLIC_KEY}, short-id: ${SHORT_ID}}, client-fingerprint: random}"
     echo ""
-    echo -e "Clash: - {name: reality_V6, type: vless, server: '${IP6}', port: 443, uuid: ${UUID}, udp: true, tls: true, flow: xtls-rprx-vision, servername: ${DEST_DOMAIN}, network: tcp, reality-opts: {public-key: ${PUBLIC_KEY}, short-id: ${SHORT_ID}}, client-fingerprint: random}"
     echo -e "${BLUE}[IPv6 Hysteria2节点信息]${NC}"
-    echo "hysteria2://${UUID}@[${IP6}]:443?sni=${DEST_DOMAIN}&insecure=0&allowInsecure=0&pinSHA256=${CERT_PIN}#Alpine_V6_Hy2"
-    echo ""
-    echo -e "Clash: - {name: "Hysteria_V4", type: hysteria2, server: ${IP4}, port: 443, password: ${UUID}, up: "100 Mbps", down: "200 Mbps", sni: ${DEST_DOMAIN}, skip-cert-verify: false, fingerprint: "${CERT_PIN}", alpn: [h3]}"
+    echo "hysteria2://${UUID}@[${IP6}]:443?sni=${DEST_DOMAIN}&insecure=0&allowInsecure=0&pinSHA256=${CERT_PIN}#Hysteria_V6"
+    echo -e "Clash: - {name: "Hysteria_V6", type: hysteria2, server: ${IP4}, port: 443, password: ${UUID}, up: "100 Mbps", down: "200 Mbps", sni: ${DEST_DOMAIN}, skip-cert-verify: false, fingerprint: "${CERT_PIN}", alpn: [h3]}"
     echo ""
 fi
 
