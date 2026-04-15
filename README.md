@@ -3,7 +3,7 @@
 安装的文件都是从官方仓库获取
 ```
 apk  update
-apk add curl bash
+apk add curl bash wget
 ```
 
 ```
