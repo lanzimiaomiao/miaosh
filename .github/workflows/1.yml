@@ -1,0 +1,33 @@
+name: Obfuscate JS
+
+on:
+  push:
+    branches: [ "main" ]  # 当你向 main 分支推送代码时触发
+
+jobs:
+  obfuscate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Obfuscator
+        run: npm install -g javascript-obfuscator
+
+      - name: Run Obfuscation
+        # 这里指定混淆 11.js，并将结果输出到 dist 文件夹
+        run: |
+          mkdir -p dist
+          javascript-obfuscator 11.js --output ./dist/11.js --compact true --self-defending true
+
+      - name: Upload Result
+        # 将混淆后的文件作为 Artifact 保存，你可以直接在 GitHub 下载
+        uses: actions/upload-artifact@v4
+        with:
+          name: obfuscated-11-js
+          path: dist/11.js
